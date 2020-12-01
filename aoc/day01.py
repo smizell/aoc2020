@@ -17,9 +17,12 @@ def find_match(nums: List[int], looking_for: int, matches: int) -> Tuple[int, in
     (979, 366, 675)
     """
     search_nums = (nums[l:] for l in range(matches))
-    for values in itertools.product(*search_nums):
-        if sum(values) == looking_for:
-            return values
+    results = (
+        values
+        for values in itertools.product(*search_nums)
+        if sum(values) == looking_for
+    )
+    return next(results, None)
 
 
 if __name__ == "__main__":
@@ -27,3 +30,5 @@ if __name__ == "__main__":
     result2 = reduce(operator.mul, find_match(nums, looking_for=2020, matches=3))
     print("part1", result1)
     print("part2", result2)
+    # part1 1009899
+    # part2 44211152
