@@ -27,15 +27,15 @@ def part2():
 
 
 def validate_part2(check):
-    n1 = int(check["n1"]) - 1
-    n2 = int(check["n2"]) - 1
+    idx1 = int(check["n1"]) - 1
+    idx2 = int(check["n2"]) - 1
     return (
         True
         if (
-            check["letter"] == check["password"][n1]
-            or check["letter"] == check["password"][n2]
+            check["letter"] == check["password"][idx1]
+            or check["letter"] == check["password"][idx2]
         )
-        and check["password"][n1] != check["password"][n2]
+        and check["password"][idx1] != check["password"][idx2]
         else False
     )
 
