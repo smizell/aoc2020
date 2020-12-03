@@ -1,4 +1,3 @@
-import math
 import operator
 from functools import reduce
 from pathlib import Path
