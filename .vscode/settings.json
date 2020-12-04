@@ -1,5 +1,6 @@
 {
   "[python]": {
     "editor.tabSize": 4
-  }
+  },
+  "python.pythonPath": "/Users/stephenmizell/.local/share/virtualenvs/aoc2020-MGiUMnvX/bin/python"
 }
