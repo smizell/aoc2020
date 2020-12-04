@@ -2,7 +2,7 @@ import re
 from enum import Enum
 from pathlib import Path
 from typing import Optional
-from pydantic import BaseModel, conint, ValidationError, validator
+from pydantic import BaseModel, conint, constr, ValidationError, validator
 
 
 main_values = Path("files/day04.txt").read_text().split("\n\n")
@@ -53,11 +53,15 @@ class Passport1(BaseModel):
     cid: Optional[str] = None
 
 
-class Passport2(Passport1):
-    byr: conint(ge=1920, le=2002)
-    iyr: conint(ge=2010, le=2020)
-    eyr: conint(ge=2020, le=2030)
+class Passport2(BaseModel):
+    byr: conint(ge=1920, le=2002)  # type: ignore
+    iyr: conint(ge=2010, le=2020)  # type: ignore
+    eyr: conint(ge=2020, le=2030)  # type: ignore
+    hgt: str
+    hcl: constr(regex=r"^#[0-9a-f]{6}$")  # type: ignore
     ecl: EyeColor
+    pid: constr(regex=r"^[0-9]{9}$")  # type: ignore
+    cid: Optional[str] = None
 
     @validator("hgt")
     def valid_hgt(cls, hgt):
@@ -91,32 +95,6 @@ class Passport2(Passport1):
             if not (193 >= n >= 150):
                 raise ValueError("Invalid hgt")
         return hgt
-
-    @validator("hcl")
-    def valid_hcl(cls, hcl):
-        """
-        >>> Passport2.valid_hcl('#123abc')
-        '#123abc'
-        >>> Passport2.valid_hcl('#123abz')
-        Traceback (most recent call last):
-        ValueError: Invalid hcl
-        """
-        if not re.search(r"^#[0-9a-f]{6}$", hcl):
-            raise ValueError("Invalid hcl")
-        return hcl
-
-    @validator("pid")
-    def valid_pid(cls, pid):
-        """
-        >>> Passport2.valid_pid('000000009')
-        '000000009'
-        >>> Passport2.valid_pid('1234')
-        Traceback (most recent call last):
-        ValueError: Invalid pid
-        """
-        if not re.search(r"^[0-9]{9}$", pid):
-            raise ValueError("Invalid pid")
-        return pid
 
 
 if __name__ == "__main__":

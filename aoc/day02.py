@@ -5,7 +5,7 @@ from aoc.utils import load_string_file
 
 PATTERN = r"(?P<n1>\d+)-(?P<n2>\d+) (?P<letter>\w): (?P<password>\w+)"
 lines = load_string_file(Path("files/day02.txt"))
-parsed = [re.search(PATTERN, line).groupdict() for line in lines]
+parsed = [re.search(PATTERN, line).groupdict() for line in lines]  # type: ignore
 
 
 def part1():
