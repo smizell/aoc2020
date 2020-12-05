@@ -15,7 +15,8 @@ def part1():
 def part2():
     results = [handle_instructions(i.strip()) for i in lines]
     ids = sorted([(row * 8) + column for row, column in results])
-    next([b - 1 for a, b in zip(ids, ids[1:]) if b - a == 2])
+    seat = next((b - 1 for a, b in zip(ids, ids[1:]) if b - a == 2))
+    print(seat)
 
 
 def handle_instructions(instructions):
