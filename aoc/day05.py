@@ -14,17 +14,8 @@ def part1():
 
 def part2():
     results = [handle_instructions(i.strip()) for i in lines]
-    seating = defaultdict(list)
-    for row, column in results:
-        seating[row].append(column)
-    # I found these manually
-    del seating[6]
-    del seating[112]
-    for row, columns in seating.items():
-        if len(columns) < 8:
-            diff = set(range(0, 8)) - set(columns)
-            print(row * 8 + diff.pop())
-            break
+    ids = sorted([(row * 8) + column for row, column in results])
+    next([b - 1 for a, b in zip(ids, ids[1:]) if b - a == 2])
 
 
 def handle_instructions(instructions):
