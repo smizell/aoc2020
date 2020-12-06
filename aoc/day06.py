@@ -1,4 +1,3 @@
-from collections import Counter
 from pathlib import Path
 
 inputs = Path("files/day06.txt").read_text().strip()
