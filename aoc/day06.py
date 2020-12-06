@@ -10,10 +10,8 @@ def part1():
 
 
 def part2():
-    people_sets = [[set(person) for person in group] for group in groups]
-    answer_sets = [
-        set(people_set[0]).intersection(*people_set[1:]) for people_set in people_sets
-    ]
+    group_set = [[set(person) for person in group] for group in groups]
+    answer_sets = [set(person[0]).intersection(*person[1:]) for person in group_set]
     print(calc_sum(answer_sets))
 
 
