@@ -5,14 +5,11 @@ groups = [line.split("\n") for line in inputs.split("\n\n")]
 
 
 def part1():
-    answer_sets = [set("".join(group)) for group in groups]
-    print(calc_sum(answer_sets))
+    print(calc_sum([set("".join(group)) for group in groups]))
 
 
 def part2():
-    group_set = [[set(person) for person in group] for group in groups]
-    answer_sets = [set(person[0]).intersection(*person[1:]) for person in group_set]
-    print(calc_sum(answer_sets))
+    print(calc_sum([set(g[0]).intersection(*map(set, g[1:])) for g in groups]))
 
 
 def calc_sum(answer_sets):
