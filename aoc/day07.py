@@ -10,42 +10,45 @@ def parse_rule(r):
 
 
 def build_set(rules):
+    def normalize_bag_name(bag_name):
+        return bag_name.replace("bags", "bag")
+
     result = defaultdict(list)
     for subject, contents in rules:
-        subject = subject.replace("bags", "bag")
+        subject = normalize_bag_name(subject)
         if contents[0] == "no other bags":
             result[subject] = []
             continue
         for content in contents:
-            result[subject].append((content[0], content[2:].replace("bags", "bag")))
+            result[subject].append((int(content[0]), normalize_bag_name(content[2:])))
     return result
-
-
-def find_options(rule_set, bag):
-    results = []
-    for subject, contents in rule_set.items():
-        content = [content[1] for content in contents]
-        if bag in content:
-            results.append(subject)
-            results = results + find_options(rule_set, subject)
-    return list(set(results))
-
-
-def find_contents(rule_set, bag):
-    contents = rule_set[bag]
-    return sum([int(content[0]) for content in contents]) + sum(
-        [
-            int(count) * find_contents(rule_set, content)
-            for count, content in contents
-            if rule_set[content]
-        ]
-    )
-    return total
 
 
 inputs = Path("files/day07.txt").read_text().strip().splitlines()
 rules = [parse_rule(e) for e in inputs]
 rule_set = build_set(rules)
+
+
+def find_options(rule_set, bag):
+    results = []
+    for subject, contents in rule_set.items():
+        bags = [content for _, content in contents]
+        if bag not in bags:
+            continue
+        results += [subject] + find_options(rule_set, subject)
+    return list(set(results))
+
+
+def find_contents(rule_set, bag):
+    contents = rule_set[bag]
+    return sum([count for count, _ in contents]) + sum(
+        [
+            count * find_contents(rule_set, content)
+            for count, content in contents
+            if rule_set[content]
+        ]
+    )
+    return total
 
 
 def part1():
