@@ -1,8 +1,10 @@
 #lang racket
 
+(require rackunit)
+
 (define inputs
   (map (lambda (l)
-         (let* ([ls (string-split l)])
+         (let ([ls (string-split l)])
            (list (string->symbol (first ls))
                  (string->number (second ls)))))
        (file->lines "../files/day08.txt")))
@@ -20,7 +22,7 @@
               [`(nop ,_) (loop acc (add1 idx) visited)])])))
 
 ; part 1
-(displayln (run inputs))
+(check-equal? (run inputs) (list 'infinite-loop 1614))
 
 (define (build-tests instructions)
   (for/fold ([acc (list)])
@@ -40,4 +42,4 @@
               [(list 'infinite-loop _) (run-tests (cdr tests))]))]))
 
 ; part 2
-(displayln (run-tests (build-tests inputs)))
+(check-equal? (run-tests (build-tests inputs)) 1260)
