@@ -32,9 +32,13 @@
   (let loop ([idx 0]
              [ns (take inputs 2)])
     (cond
+      ; We didn't find any matches
       [(> idx (sub1 (length inputs))) #f]
+      ; No more numbers to take, move to next idx
       [(= (length ns) (length (drop inputs idx))) (loop (add1 idx) (take (drop inputs idx) 2))]
+      ; Here's our match
       [(= (apply + ns)  weakness) ns]
+      ; No match, so take an additional number
       [else (loop idx (take (drop inputs idx) (add1 (length ns))))])))
 
 (define enc-weaknesses (find-enc-weaknesses inputs weakness))
